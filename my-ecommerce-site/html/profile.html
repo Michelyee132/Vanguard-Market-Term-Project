@@ -41,31 +41,33 @@
         window.addEventListener('DOMContentLoaded', async () => {
             try {
                 const userRes = await fetch('/api/check-login');
-                const userData = await userRes.json();
-                if (userData.loggedIn) {
+                    const userData = await userRes.json();
+                    if (!userData.loggedIn) {
+                        window.location.href = '/html/login.html';
+                        return;
+                    }
                     document.getElementById('userName').textContent = userData.user.name || "User";
                     document.getElementById('userEmail').textContent = userData.user.email || "";
-                }
     
-                const res = await fetch('/user/purchase-history'); 
+                const res = await fetch('/cart/purchase-history'); 
                 if (!res.ok) throw new Error('Failed to fetch purchase history');
                 const data = await res.json();
                 const container = document.getElementById('history-container');
     
-                if (!data.history || data.history.length === 0) {
+                if (!data || data.length === 0) {
                     container.innerHTML = '<p>You have no purchase history.</p>';
                     return;
                 }
-    
-                container.innerHTML = data.history.map(product => 
-                     `<div class="product-card">
+
+                container.innerHTML = data.map(product => 
+                    `<div class="product-card">
                         <img src="${product.image}" alt="${product.name}">
                         <h3>${product.name}</h3>
-                        <p>$${product.price.toFixed(2)}</p>
-                        <p>Total Price: $${parseFloat(product.price).toFixed(2)}</p>
+                        <p>Total Price: $${(product.price * product.quantity).toFixed(2)}</p>
+                        <p>Quantity: ${product.quantity}</p>
                         <p>Purchased on: ${new Date(product.date).toLocaleString()}</p>
-                    </div>
-                `).join('');
+                    </div>`
+                ).join('');
             } catch (err) {
                 console.error(err);
                 document.getElementById('history-container').innerHTML = '<p>Error loading purchase history.</p>';
