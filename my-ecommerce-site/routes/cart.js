@@ -8,14 +8,16 @@ router.post('/add', (req, res) => {
         req.session.cart = [];
     }
 
-    if (!req.session.purchaseHistory) {
-        req.session.purchaseHistory = [];
-    }
-    
+    const userId = req.session.user?.id;
+
+    const persistentPurchases = (req.app.locals.purchases && userId && req.app.locals.purchases[userId]) || [];
+
+    const purchasedIds = persistentPurchases.map(item => item.id);
+
     const existingItem = req.session.cart.find(item => item.id === product.id);
     const isOneTime = product.oneTimePurchase;
 
-    if (isOneTime && req.session.purchaseHistory.includes(product.id)) {
+    if (isOneTime && purchasedIds.includes(product.id)) {
         return res.status(400).json({ error: 'You already purchased this.' });
     }
 
@@ -59,7 +61,7 @@ router.delete('/remove/:id', (req, res) => {
 
     if (index !== -1) {
         req.session.cart.splice(index, 1);
-        res.json({ message: `Item ${id} deleted from cart., cart: req.session.cart` });
+        res.json({ message: 'Item ${id} deleted from cart., cart: req.session.cart' });
     } else {
         res.status(404).json({ error: 'Item not found in cart' });
     }
@@ -94,16 +96,27 @@ router.post('/checkout', (req, res) => {
     if (!req.session.purchaseHistory) {
         req.session.purchaseHistory = [];
     }
-    
+
     for (const item of req.session.cart) {
         if (item.oneTimePurchase && !req.session.purchaseHistory.includes(item.id)) {
             req.session.purchaseHistory.push(item.id);
         }
     }
-    
+
     req.session.cart = [];
 
     res.json({ message: 'Checkout successful!' });
+});
+
+router.use((req, res, next) => {
+    const userId = req.session.user?.id;
+    if (userId) {
+        const persistentPurchases = (req.app.locals.purchases && req.app.locals.purchases[userId]) || [];
+        req.session.purchaseHistory = persistentPurchases
+            .filter(item => item.oneTimePurchase)
+            .map(item => item.id);
+    }
+    next();
 });
 
 router.get('/purchase-history', (req, res) => {
