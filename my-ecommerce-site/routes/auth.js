@@ -37,12 +37,13 @@ router.post('/login', async (req, res) => {
     
 });
 
-router.get('/logout', (req, res) => {
+router.post('/logout', (req, res) => {
     req.session.destroy(err => {
         if (err) {
-            return res.status(500).send('Logout failed');
+            return res.status(500).json({ message: 'Logout failed' });
         }
-        res.redirect('/html/login.html');
+        res.clearCookie('connect.sid'); 
+        res.redirect('/html/login.html'); 
     });
 });
 
