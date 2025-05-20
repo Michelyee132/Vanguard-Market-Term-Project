@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vanguard Market - Shopping Cart</title>
+    <link rel="stylesheet" href="/public/css/styles.css">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <h2>How can we help?</h2>
+            <div class="search-bar">
+                <form action="/products/search" method="get">
+                    <input type="text" name="query" placeholder="Search products...">
+                    <button type="submit">Search</button>
+                </form>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/html/index.html">Home</a></li>
+                <li><a href="/html/login.html">Login</a></li>
+                <li><a href="/html/about.html">About Us</a></li>
+                <li><a href="/html/faq.html">FAQ</a></li>
+                <li><a href="/html/profile.html">Profile</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="cart-title">
+        <h1>Your Cart</h1>
+    </div>
+
+    <div class="cart">
+        <div id="cart-items"></div>
+        <div class="cart-summary">
+            <h2>Order Summary</h2>
+            <div class="summary-details">
+
+            </div>
+        </div>
+        <div class="cart-actions">
+            <button id="clear-cart" class="logout-button">Clear Cart</button>
+            <button id="checkoutBtn" class="logout-button">Checkout</button>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            loadCart();  
+    
+            const clearCartButton = document.getElementById('clear-cart');
+            clearCartButton.addEventListener('click', async () => {
+                const response = await fetch('/cart/clear', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+    
+                const data = await response.json();
+                console.log('Clear cart response:', data);
+    
+                if (response.ok) {
+                    alert('Cart has been successfully cleared!');
+                } else {
+                    alert('Failed to clear the cart. Please try again.');
+                }
+    
+                loadCart();
+            });
+
+            document.getElementById('checkoutBtn').addEventListener('click', async () => {
+                const response = await fetch('/cart/checkout', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    alert('Checkout complete! Redirecting to profile...');
+                    window.location.href = '/html/profile.html'; 
+                } else {
+                    const data = await response.json();
+                    alert(`Error: ${data.error || 'Checkout failed.'}`);
+                }
+            });
+        });
+    
+        async function removeItemFromCart(id, name) {
+            try {
+                const response = await fetch(`/cart/remove/${id}`, { method: 'DELETE' });
+    
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log(data.message);
+                    alert(`${name} successfully removed!`);
+                    loadCart();
+                } else {
+                    const errorData = await response.json();
+                    alert(`Error: ${data.error || 'Checkout failed.'}`);
+                }
+    
+            } catch (error) {
+                console.error('Failed to remove item:', error);
+            }
+        }
+    
+        async function loadCart() {
+            const response = await fetch('/cart');
+            const cart = await response.json();
+            console.log(cart);
+    
+            const cartContainer = document.getElementById('cart-items');
+            const cartSummaryElement = document.querySelector('.summary-details');
+            cartContainer.innerHTML = '';
+    
+            if (!cart || cart.length === 0) {
+                cartContainer.innerHTML = '<p>Your cart is empty.</p>';
+                cartSummaryElement.innerHTML = '';
+                return;
+            }
+    
+            cart.forEach(item => {
+                const productEl = document.createElement('div');
+                productEl.classList.add('cart-item');
+                productEl.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}" width="100">
+                    <h3>${item.name}</h3>
+                    <p>Price: $${(item.price * item.quantity).toFixed(2)}</p>
+                    <p>Quantity: ${item.quantity}</p>
+                    <button class="remove-btn" data-id="${item.id}">Remove</button>
+                `;
+                cartContainer.appendChild(productEl);
+            });
+    
+            document.querySelectorAll('.remove-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const id = e.target.getAttribute('data-id');
+                    const productEl = e.target.closest('.cart-item');
+                    const name = productEl.querySelector('h3').textContent;
+                    removeItemFromCart(id, name);
+                });
+            });
+    
+            renderCartSummary(cart);
+        }
+    
+        function renderCartSummary(cart) {
+            const cartSummaryElement = document.querySelector('.summary-details');
+            let total = 0;
+    
+            cart.forEach(item => {
+                total += item.price * item.quantity;
+            });
+    
+            cartSummaryElement.innerHTML = `
+                <p class="total">Total: <span>$${total.toFixed(2)}</span></p>
+            `;
+        }
+    </script>
+
+    <footer>
+        <nav>
+            <ul>
+                <li><a href="/html/about.html">About Us</a></li>
+                <li><a href="/html/faq.html">FAQ</a></li>
+            </ul>
+        </nav>
+        <p>&copy; 2025 Vanguard Market. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>

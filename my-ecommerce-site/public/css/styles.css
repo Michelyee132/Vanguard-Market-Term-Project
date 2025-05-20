@@ -1,0 +1,701 @@
+@font-face {
+    font-family: 'Genshin';
+    src: url(fonts/genshinfont.ttf);
+}
+@font-face {
+    font-family: 'vanguard';
+    src: url(fonts/vanguard.ttf);
+}
+
+
+:root {
+    --primary-color: #4a6fa5;
+    --secondary-color: #166088;
+    --accent-color: #4fc3f7;
+    --light-color: #f8f9fa;
+    --dark-color: #343a40;
+    --success-color: #28a745;
+    --warning-color: #ffc107;
+    --danger-color: #dc3545;
+    --gray-color: #6c757d;
+    --light-gray: #e9ecef;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--dark-color);
+    background-color: var(--light-color);
+}
+
+h1 {
+    font-family: 'Genshin', sans-serif;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    margin-left: 0.5rem;
+}
+
+a {
+    font-family: 'Genshin', sans-serif;
+    margin-left: 0.5rem;
+    text-decoration: none;
+    color: var(--primary-color);
+}
+
+a:hover {
+    color: var(--secondary-color);
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+header {
+    height: 125px;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+nav {
+    font-family: 'Genshin', sans-serif;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.25rem 1rem;
+    height: 100%;
+}
+
+h2 {
+    font-family: 'Genshin', sans-serif;
+    font-size: 1.25rem;
+}
+
+.logo img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin-left: 20px;
+    margin-top: -40px;
+}
+
+.search-bar {
+    flex: 0 1 400px;
+    margin: 0 1rem;
+    text-align: center;
+}
+
+.search-bar input {
+    width: 75%;
+    padding: 0.4rem 0.75rem;
+    font-size: 0.75rem;
+    border: 1px solid var(--light-gray);
+    border-radius: 4px 0 0 4px;
+}
+
+.search-bar button {
+    padding: 0.4rem 0.8rem;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+}
+
+.nav-links li {
+    margin-left: 1.25rem;
+}
+
+.hero {
+    font-family: 'vanguard', sans-serif;
+    background-color: var(--primary-color);
+    background: repeating-linear-gradient(-45deg, red 0%, yellow 7.14%, rgb(0, 255, 0) 14.28%,
+    rgb(0, 255, 255) 21.4%, cyan 28.56%, blue 35.7%, magenta 42.84%, red 50%);
+    background-size: 600vw 600vw;
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    animation: slide 10s linear infinite forwards;
+    padding: 3rem 0;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+@keyframes slide {
+    0%{
+        background-position-x: 0%;
+    }
+    100%{
+        background-position-x: 600vw;
+    }
+}
+
+.hero h1 {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+.products {
+    padding: 2rem 0;
+}
+
+.products h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.product-card {
+    margin-left: 1rem;
+    margin-right: 1rem;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+}
+
+.product-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: contain;
+}
+
+.product-card h3, .product-card p {
+    font-family: 'Genshin', sans-serif;
+    padding: 0.5rem 1rem;
+}
+
+.product-card button {
+    display: block;
+    width: 100%;
+    padding: 0.75rem;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.product-card button:hover {
+    background-color: var(--secondary-color);
+}
+
+.auth-container {
+    font-family: 'Genshin', sans-serif;
+    display: flex;
+    justify-content: space-around;
+    padding: 3rem 0;
+}
+
+.login-section, .register-section {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    width: 45%;
+}
+
+.auth-container h1 {
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--light-gray);
+    border-radius: 4px;
+}
+
+.auth-container button {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 1rem;
+}
+
+.auth-container button:hover {
+    background-color: var(--secondary-color);
+}
+
+.product-detail {
+    display: flex;
+    padding: 2rem 0;
+    gap: 3rem;
+}
+
+.product-images {
+    flex: 1;
+}
+
+.product-images img {
+    margin-left: 1rem;
+    width: 100%;
+    height: 300px;
+    border-radius: 8px;
+    object-fit: contain;
+}
+
+.product-info {
+    margin-left: 1rem;
+    font-family: 'vanguard', sans-serif;
+    flex: 1;
+}
+
+.product-info h1 {
+    margin-left: 0.1rem;
+    font-family: 'vanguard', sans-serif;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.price {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+}
+
+.product-description {
+    margin-bottom: 2rem;
+}
+
+.product-description ul {
+    margin-top: 1rem;
+    padding-left: 1.5rem;
+}
+
+.quantity-selector {
+    margin-bottom: 1.5rem;
+}
+
+.quantity-selector select {
+    padding: 0.5rem;
+    margin-left: 0.5rem;
+}
+
+.cart {
+    margin-left: 1rem;
+    margin-bottom: 2rem;
+}
+
+.cart-title {
+    margin-top: 2rem;
+    margin-left: 0.5rem;
+    font-family: 'Genshin', sans-serif;
+}
+
+.add-to-cart {
+    padding: 1rem 2rem;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.add-to-cart:hover {
+    background-color: var(--secondary-color);
+}
+
+.cart-container {
+    padding: 2rem 0;
+}
+
+.cart-items {
+    margin-bottom: 2rem;
+}
+
+.cart-item {
+    font-family: 'vanguard', sans-serif;
+    display: flex;
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    align-items: center;
+    gap: 1rem;
+}
+
+.cart-item img {
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+    margin-right: 1.5rem;
+}
+
+.item-details {
+    flex: 1;
+}
+
+.item-quantity {
+    margin-top: 0.5rem;
+}
+
+.item-quantity input {
+    width: 60px;
+    padding: 0.25rem;
+    margin: 0 0.5rem;
+}
+
+.remove-item {
+    background: none;
+    border: none;
+    color: var(--danger-color);
+    cursor: pointer;
+}
+
+.item-total {
+    font-weight: bold;
+    margin-left: 1rem;
+}
+
+.cart-summary {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+}
+
+.summary-details p {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.total {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 1rem 0;
+    padding-top: 1rem;
+    border-top: 1px solid var(--light-gray);
+}
+
+.checkout-button {
+    width: 100%;
+    padding: 1rem;
+    background-color: var(--success-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.checkout-button:hover {
+    background-color: #218838;
+}
+
+.profile-container {
+    padding: 2rem 0;
+}
+
+.user-info {
+    margin-bottom: 3rem;
+}
+
+.info-card {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 1rem;
+}
+
+.info-card p {
+    margin-bottom: 0.5rem;
+}
+
+.edit-profile, .change-password {
+    padding: 0.5rem 1rem;
+    margin-right: 1rem;
+    margin-top: 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.edit-profile {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.change-password {
+    background-color: var(--light-gray);
+}
+
+.order {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1.5rem;
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--light-gray);
+}
+
+.order-items {
+    display: flex;
+}
+
+.order-item {
+    display: flex;
+    align-items: center;
+    margin-right: 2rem;
+}
+
+.order-item img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    margin-right: 1rem;
+}
+
+.about-container, .faq-container {
+    margin-left: 2rem;
+    margin-right: 2rem;
+    font-family: 'vanguard', sans-serif;
+    padding: 2rem 0;
+}
+
+.about-section, .faq-section {
+    margin-bottom: 3rem;
+}
+
+.about-section h2, .faq-section h2 {
+    font-family: 'Genshin', sans-serif;
+    margin-bottom: 1.5rem;
+    color: var(--primary-color);
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 2rem;
+}
+
+.team-member {
+    text-align: center;
+}
+
+.team-member img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 1rem;
+}
+
+.faq-item, .about-info{
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.faq-item h3 {
+    font-family: 'Genshin', sans-serif;
+    color: var(--secondary-color);
+    margin-bottom: 0.5rem;
+}
+
+footer {
+    font-family: 'Genshin', sans-serif;
+    background-color: var(--dark-color);
+    color: white;
+    padding: 2rem 0;
+    margin-top: auto;
+    justify-content: center;
+    text-align: center;
+}
+
+footer a {
+    color: white;
+}
+
+footer ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+footer li {
+    margin: 0 1rem;
+}
+
+footer p {
+    text-align: center;
+}
+
+.profile {
+    font-family: 'Genshin', sans-serif;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    margin-left: 1rem;
+}
+
+.profile h1 { 
+    margin-left: -0.25rem;
+}
+
+.profile h2 {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.logout-button, .remove-btn {
+    margin-top: 1rem;
+    font-size: 1.2rem; 
+    padding: 10px 20px; 
+    background-color: #2255ad; 
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.logout-button:hover, .remove-btn:hover {
+    background-color: #838383; 
+}
+
+.cart-summary {
+    padding: 20px;
+    border-top: 1px solid #ccc;
+    margin-top: 20px;
+}
+
+.cart-summary h2 {
+    margin-bottom: 10px;
+}
+
+.summary-details {
+    font-size: 1.2em;
+}
+
+.summary-details p {
+    margin: 5px 0;
+}
+
+.summary-details .total {
+    font-weight: bold;
+    font-size: 1.4em;
+    color: green;
+}
+
+@media (max-width: 768px) {
+    nav {
+        flex-direction: column;
+    }
+    
+    .logo {
+        margin-bottom: 1rem;
+    }
+    
+    .search-bar {
+        width: 100%;
+        margin: 1rem 0;
+    }
+    
+    .auth-container {
+        flex-direction: column;
+    }
+    
+    .login-section, .register-section {
+        width: 100%;
+        margin-bottom: 2rem;
+    }
+    
+    .product-detail {
+        flex-direction: column;
+    }
+    
+    .cart-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .cart-item img {
+        margin-bottom: 1rem;
+    }
+    
+    .item-total {
+        margin: 1rem 0 0;
+        align-self: flex-end;
+    }
+    
+    .order-header {
+        flex-direction: column;
+    }
+    
+    .order-header p {
+        margin-bottom: 0.5rem;
+    }
+    
+    .order-items {
+        flex-direction: column;
+    }
+    
+    .order-item {
+        margin-bottom: 1rem;
+    }
+
+    .message {
+        margin-top: 1rem;
+        padding: 0.5rem;
+        border-radius: 4px;
+    }
+}

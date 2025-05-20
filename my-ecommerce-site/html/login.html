@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vanguard Market - Login</title>
+    <link rel="stylesheet" href="/public/css/styles.css">
+    <style>
+        .error-message {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <h2>How can we help?</h2>
+            <div class="search-bar">
+                <form action="/products/search" method="get">
+                    <input type="text" name="query" placeholder="Search products...">
+                    <button type="submit">Search</button>
+                </form>
+                <div id="search-results"></div>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/html/index.html">Home</a></li>
+                <li><a href="/html/cart.html">Cart</a></li>
+                <li><a href="/html/about.html">About Us</a></li>
+                <li><a href="/html/faq.html">FAQ</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="auth-container">
+        <section class="login-section">
+            <h1>Login</h1>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="login-email">Email:</label>
+                    <input type="email" id="login-email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password:</label>
+                    <input type="password" id="login-password" name="password" required>
+                </div>
+                <button type="submit">Login</button>
+                <div id="login-error" class="error-message"></div>
+            </form>
+        </section>
+        
+        <section class="register-section">
+            <h1>Register</h1>
+            <form id="register-form">
+                <div class="form-group">
+                    <label for="register-name">Name:</label>
+                    <input type="text" id="register-name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-email">Email:</label>
+                    <input type="email" id="register-email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-password">Password:</label>
+                    <input type="password" id="register-password" name="password" required>
+                </div>
+                <button type="submit">Register</button>
+                <div id="register-error" class="error-message"></div>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <nav>
+            <ul>
+                <li><a href="/html/about.html">About Us</a></li>
+                <li><a href="/html/faq.html">FAQ</a></li>
+            </ul>
+        </nav>
+        <p>&copy; 2025 Vanguard Market. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const loginForm = document.getElementById('login-form');
+        const errorDiv = document.getElementById('login-error');
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            const response = await fetch('/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password })
+            });
+
+            if (response.ok) {
+                window.location.href = '/html/profile.html'; 
+            } else {
+                errorDiv.textContent = "Username or password is incorrect";
+            }
+        });
+
+        const registerForm = document.getElementById('register-form');
+        const registerErrorDiv = document.getElementById('register-error');
+
+        registerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+
+            const response = await fetch('/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ name, email, password })
+            });
+
+            if (response.ok) {
+                window.location.href = '/html/profile.html';
+            } else {
+                const errorText = await response.text();
+                registerErrorDiv.textContent = errorText || "Registration failed.";
+            }
+        });
+    </script>
+</body>
+</html>

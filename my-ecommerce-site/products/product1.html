@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vanguard Market - 100 Trait Rerolls</title>
+    <link rel="stylesheet" href="/public/css/styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <h2>How can we help?</h2>
+            <div class="search-bar">
+                <form action="/products/search" method="get">
+                    <input type="text" name="query" placeholder="Search products...">
+                    <button type="submit">Search</button>
+                </form>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/html/index.html">Home</a></li>
+                <li><a href="/html/cart.html">Cart</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="product-detail">
+        <section class="product-images">
+            <img src="/public/images/100traitrerolls.png" alt="100-Trait-Rerolls">
+        </section>
+        
+        <section class="product-info" data-product-id="1">
+            <h1>100 Trait Rerolls</h1>
+            <p class="price">$50.00</p>
+            <div class="product-description">
+                <p>100 fragments and a dream</p>
+                <ul>
+                    <li>100 chances to get a 0.1% trait, Monarch</li>
+                </ul>
+            </div>
+
+            <div class="product-actions">
+                <div class="quantity-selector">
+                    <label for="quantity">Quantity:</label>
+                    <select id="quantity" name="quantity">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <button class="add-to-cart">Add to Cart</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <nav>
+            <ul>
+                <li><a href="/html/about.html">About Us</a></li>
+                <li><a href="/html/faq.html">FAQ</a></li>
+            </ul>
+        </nav>
+        <p>&copy; 2025 Vanguard Market. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.querySelector('.add-to-cart').addEventListener('click', () => {
+        const productId = 1; 
+        const name = document.querySelector('h1').innerText.trim();
+        const price = parseFloat(document.querySelector('.price').innerText.replace('$', ''));
+        const image = document.querySelector('.product-images img').getAttribute('src');
+        const quantity = parseInt(document.getElementById('quantity').value);
+
+        fetch('/cart/add', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                id: productId,
+                name,
+                price,
+                quantity,
+                image
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data.cart);  
+            alert(`${quantity} item(s) added to cart!`);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Failed to add product.');
+        });
+    });
+    </script>
+</body>
+</html>

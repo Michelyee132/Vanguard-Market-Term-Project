@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vanguard Market - Home</title>
+    <link rel="stylesheet" href="/public/css/styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <h2>How can we help?</h2>
+            <div class="search-bar">
+                <form action="/products/search" method="get">
+                    <input type="text" name="query" placeholder="Search products...">
+                    <button type="submit">Search</button>
+                </form>
+                <div id="search-results"></div>
+            </div>          
+            <ul class="nav-links">
+                <li><a id="login-btn" href="/html/login.html">Login</a></li>
+                <li><a href="/html/cart.html">Cart</a></li>
+                <li><a href="/html/about.html">About Us</a></li>
+                <li><a href="/html/faq.html">FAQ</a></li>
+                <li><a href="/html/profile.html">Profile</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>Vanguard Market</h1>
+        </section>
+
+        <section class="products">
+            <h2>Version 5.5 Products</h2>
+            <div class="product-grid">
+                
+                <div class="product-card">
+                    <a href="/products/product1.html">
+                        <img src="/public/images/100traitrerolls.png" alt="100-Trait-Rerolls">
+                        <h3>100 Trait Rerolls</h3>
+                        <p>$50.00</p>
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <a href="/products/product2.html">
+                        <img src="/public/images/50traitrerolls.png" alt="50-Trait-Rerolls">
+                        <h3>50 Trait Rerolls</h3>
+                        <p>$25.00</p>
+                    </a>
+                </div>
+                
+                <div class="product-card">
+                    <a href="/products/product3.html">
+                        <img src="/public/images/premiumpass.png" alt="Premium-Pass">
+                        <h3>Premium Pass</h3>
+                        <p>$5.00</p>
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <a href="/products/product4.html">
+                        <img src="/public/images/moonlightpiano.png" alt="Moonlight-Bundle">
+                        <h3>Moonlight Bundle</h3>
+                        <p>$50.00</p> 
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <a href="/products/product5.html">
+                        <img src="/public/images/10traitrerolls.png" alt="10-Trait-Rerolls">
+                        <h3>10 Trait Rerolls</h3>
+                        <p>$5.00</p> 
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <a href="/products/product6.html">
+                        <img src="/public/images/monarchgogeta.png" alt="Monarch-Rogita">
+                        <h3>Monarch Rogita</h3>
+                        <p>$69.00</p> 
+                    </a>
+                </div>
+                
+                <div class="product-card">
+                    <a href="/products/product7.html">
+                        <img src="/public/images/VIP.png" alt="VIP">
+                        <h3>VIP</h3>
+                        <p>$1.00</p> 
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <a href="/products/product8.html">
+                        <img src="/public/images/bundle5.0.png" alt="Bundle-5.5">
+                        <h3>Bundle 5.5</h3>
+                        <p>$10.00</p> 
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <a href="/products/product9.html">
+                        <img src="/public/images/bundle5.0++.png" alt="Bundle-5.5++">
+                        <h3>Bundle 5.5++</h3>
+                        <p>$25.00</p> 
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <a href="/products/product10.html">
+                        <img src="/public/images/casualichigo.png" alt="CASUAL-SKIN-BUNDLE">
+                        <h3>CASUAL SKIN BUNDLE</h3>
+                        <p>$10.00</p> 
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <a href="/products/product11.html">
+                        <img src="/public/images/buzzcutbaddie.png" alt="BUZZCUT-BADDIE-BUNDLE">
+                        <h3>BUZZCUT BADDIE BUNDLE</h3>
+                        <p>$10.00</p> 
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <a href="/products/product12.html">
+                        <img src="/public/images/shinyhunter.png" alt="Shiny-Hunter">
+                        <h3>Shiny Hunter</h3>
+                        <p>$7.00</p> 
+                    </a>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <script>
+        document.querySelectorAll('.product-card button').forEach((button, index) => {
+            button.addEventListener('click', () => {
+            const productCard = button.closest('.product-card');
+            const name = productCard.querySelector('h3').innerText;
+            const price = productCard.querySelector('p').innerText;
+            const image = productCard.querySelector('img').getAttribute('src');
+            const description = productCard.querySelector('product.description p').innerText;
+
+            const id = index + 1;
+
+            fetch('/cart/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id, name, price, image, description })
+            })
+            .then(res => res.json())
+            .then(data => {
+                alert(`${name} added to cart!`);
+            });
+        });
+    });
+
+        function updateCartCount(count) {
+            const counter = document.getElementById('cart-count');
+            if (counter) counter.innerText = count;
+        }
+
+        fetch('/cart')
+            .then(res => res.json())
+            .then(cart => {
+                if (Array.isArray(cart)) {
+                    updateCartCount(cart.length);
+                }
+            });
+
+    async function isLoggedIn() {
+        const res = await fetch('/auth/status');
+        if (res.status === 200) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    document.querySelectorAll('.product-card a').forEach(link => {
+        link.addEventListener('click', async (e) => {
+            e.preventDefault();
+            const loggedIn = await isLoggedIn();
+            if (loggedIn) {
+                window.location.href = link.href;
+            } else {
+                window.location.href = '/html/login.html';
+                alert(`You must log in to proceed.`);
+            }
+        });
+    });
+
+    fetch('/api/check-login')
+        .then(res => res.json())
+        .then(data => {
+            if(data.loggedIn) {
+                document.getElementById('login-btn').href = 'profile.html';
+                document.getElementById('login-btn').textContent = 'Login';
+            }
+        })
+        .catch(console.error);
+    </script>
+        
+    <footer>
+        <nav>
+            <ul>
+                <li><a href="/public//html/about.html">About Us</a></li>
+                <li><a href="/public//html/faq.html">FAQ</a></li>
+            </ul>
+        </nav>
+        <p>&copy; 2025 Vanguard Market. All rights reserved.</p>
+    </footer>
+</body>
+</html>

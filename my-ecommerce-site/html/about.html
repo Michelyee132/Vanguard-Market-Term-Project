@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vanguard Market - About Us</title>
+    <link rel="stylesheet" href="/public/css/styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <h2>How can we help?</h2>
+            <div class="search-bar">
+                <form action="/products/search" method="get">
+                    <input type="text" name="query" placeholder="Search products...">
+                    <button type="submit">Search</button>
+                </form>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/html/index.html">Home</a></li>
+                <li><a id="login-btn" href="/html/login.html">Login</a></li>
+                <li><a href="/html/cart.html">Cart</a></li>
+                <li><a href="/html/faq.html">FAQ</a></li>
+                <li><a href="/html/profile.html">Profile</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="about-container">
+        <section class="about-section">
+            <div class="about-info">
+                <h2>About Us</h2>
+                <p>A pair of highly skilled Anime Vanguard Players, with one having more monarchs than the other. I have a friend that have 16 monarchs and his friend only have 5.
+                    You know, 16 monarchs isn't alot, don't mind that friend with 5, that is a different story, says the guy defending his friend with 5 monarchs.
+                </p>
+            </div>
+        </section>
+        
+        <section class="about-section">
+            <div class="about-info">
+                <h2>Our Story</h2>
+                <p>We started playing Anime Vanguards on its release day, enjoying the game due its insane graphics and a vast majority of anime characters with unique abilities.</p>
+            </div>
+        </section>
+        
+        <section class="about-section">
+            <div class="about-info">
+                <h2>Our Mission</h2>
+                <p>The prices in Anime Vanguards are too expensive, so we help players buy products here at an affordable price to improve player experience.
+                    Mainly to help the players that spent their life saving on the game to get more MONARCH "like my friend Davin" to become the megumi in Anime Vanguard.
+                    Some people, *cough *cough a certain friend, took MY MONARCHS, why??? What have I done to deserve this?
+                </p>
+            </div>
+        </section>
+        
+        <section class="about-section">
+            <div class="about-info">
+                <h2>Meet the Duo</h2>
+                <div class="team-grid">
+                    <div class="team-member">
+                        <img src="/public/images/seadog679.png" alt="Brian Cheung">
+                        <h3>Brian Cheung</h3>
+                    </div>
+                    <div class="team-member">
+                        <img src="/public/images/chao_nima04.png" alt="Michael Yu">
+                        <h3>Michael Yu</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <nav>
+            <ul>
+                <li><a href="/public/html/about.html">About Us</a></li>
+                <li><a href="/public/html/faq.html">FAQ</a></li>
+            </ul>
+        </nav>
+        <p>&copy; 2025 Vanguard Market. All rights reserved.</p>
+    </footer>
+
+    <script>
+    fetch('/api/check-login')
+        .then(res => res.json())
+        .then(data => {
+            if(data.loggedIn) {
+                document.getElementById('login-btn').href = 'profile.html';
+                document.getElementById('login-btn').textContent = 'Login';
+            }
+        })
+        .catch(console.error);
+    </script>
+</body>
+</html>

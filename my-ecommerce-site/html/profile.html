@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vanguard Market - Profile</title>
+    <link rel="stylesheet" href="/public/css/styles.css">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <h2>How can we help?</h2>
+            <div class="search-bar">
+                <form action="/products/search" method="get">
+                    <input type="text" name="query" placeholder="Search products...">
+                    <button type="submit">Search</button>
+                </form>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/html/index.html">Home</a></li>
+                <li><a href="/html/cart.html">Cart</a></li>
+                <li><a href="/html/about.html">About Us</a></li>
+                <li><a href="/html/faq.html">FAQ</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="profile">
+        <h1>Welcome, <span id="userName"></span>!</h1>
+        <p>Email: <span id="userEmail"></span></p>
+        <section id="purchase-history">
+            <h2>Your Purchase History</h2>
+            <div id="history-container" class="product-grid"></div>
+        </section>
+        <button class="logout-button" onclick="logout()">Logout</button>
+    </div>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const userRes = await fetch('/api/check-login');
+                const userData = await userRes.json();
+                if (userData.loggedIn) {
+                    document.getElementById('userName').textContent = userData.user.name || "User";
+                    document.getElementById('userEmail').textContent = userData.user.email || "";
+                }
+    
+                const res = await fetch('/user/purchase-history'); 
+                if (!res.ok) throw new Error('Failed to fetch purchase history');
+                const data = await res.json();
+                const container = document.getElementById('history-container');
+    
+                if (!data.history || data.history.length === 0) {
+                    container.innerHTML = '<p>You have no purchase history.</p>';
+                    return;
+                }
+    
+                container.innerHTML = data.history.map(product => 
+                     `<div class="product-card">
+                        <img src="${product.image}" alt="${product.name}">
+                        <h3>${product.name}</h3>
+                        <p>$${product.price.toFixed(2)}</p>
+                        <p>Total Price: $${parseFloat(product.price).toFixed(2)}</p>
+                        <p>Purchased on: ${new Date(product.date).toLocaleString()}</p>
+                    </div>
+                `).join('');
+            } catch (err) {
+                console.error(err);
+                document.getElementById('history-container').innerHTML = '<p>Error loading purchase history.</p>';
+            }
+        });
+    
+        function logout() {
+            fetch('/auth/logout', { method: 'POST' })
+                .then(() => window.location.href = '/html/login.html');
+        }
+    </script>    
+
+    <footer>
+        <nav>
+            <ul>
+                <li><a href="/html/about.html">About Us</a></li>
+                <li><a href="/html/faq.html">FAQ</a></li>
+            </ul>
+        </nav>
+        <p>&copy; 2025 Vanguard Market. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>

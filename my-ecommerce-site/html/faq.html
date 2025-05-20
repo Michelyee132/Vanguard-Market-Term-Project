@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vanguard Market - FAQ</title>
+    <link rel="stylesheet" href="/public/css/styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <h2>How can we help?</h2>
+            <div class="search-bar">
+                <form action="/products/search" method="get">
+                    <input type="text" name="query" placeholder="Search products...">
+                    <button type="submit">Search</button>
+                </form>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/html/index.html">Home</a></li>
+                <li><a id="login-btn" href="/html/login.html">Login</a></li>
+                <li><a href="/html/cart.html">Cart</a></li>
+                <li><a href="/html/about.html">About Us</a></li>
+                <li><a href="/html/profile.html">Profile</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="faq-container">
+        <h1>Frequently Asked Questions</h1>
+        <section class="faq-section">
+            <div class="faq-item">
+                <h3>Will there be a sale, for example on Black Friday?</h3>
+                <p>Absolutely not because the price we are giving are the lowest. If we go lower, we won't make profit.</p>
+            </div>
+            <div class="faq-item">
+                <h3>Will the products get instantly sent to my in-game account?</h3>
+                <p>Yes, but if you are already in game, rejoin to retrieve your purchases by checking the in-game mail.</p>
+            </div>
+            <div class="faq-item">
+                <h3>Will purchases go through if I never played the game yet?</h3>
+                <p>Yes, be sure to check the in-game mail after completing beginner quests.</p>
+            </div>
+            <div class="faq-item">
+                <h3>What is your return policy?</h3>
+                <p>What ever is purchased, can never be refunded. So think before you buy because the product will auto send to you right after you bought the product.</p>
+            </div>
+            <div class="faq-item">
+                <h3>When will bundles and premium passes update prior to the newest game versions?</h3>
+                <p>We will temporarily suspend this website when the game maintenance starts and will be reopened, as well the bundles and premium passes updated when the game reopens.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <nav>
+            <ul>
+                <li><a href="/html/about.html">About Us</a></li>
+                <li><a href="/html/faq.html">FAQ</a></li>
+            </ul>
+        </nav>
+        <p>&copy; 2025 Vanguard Market. All rights reserved.</p>
+    </footer>
+
+    <script>
+        fetch('/api/check-login')
+            .then(res => res.json())
+            .then(data => {
+                if(data.loggedIn) {
+                    document.getElementById('login-btn').href = 'profile.html';
+                    document.getElementById('login-btn').textContent = 'Login';
+                }
+            })
+            .catch(console.error);
+    </script>
+</body>
+</html>

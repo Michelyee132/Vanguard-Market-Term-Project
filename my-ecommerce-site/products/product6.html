@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vanguard Market - Monarch Rogita</title>
+    <link rel="stylesheet" href="/public/css/styles.css">
+</head>
+<body data-product-id="product6" data-one-time-purchase="true">
+    <header>
+        <nav>
+            <h2>How can we help?</h2>
+            <div class="search-bar">
+                <form action="/products/search" method="get">
+                    <input type="text" name="query" placeholder="Search products...">
+                    <button type="submit">Search</button>
+                </form>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/html/index.html">Home</a></li>
+                <li><a href="/html/cart.html">Cart</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="product-detail">
+        <section class="product-images">
+            <img src="/public/images/monarchgogeta.png" alt="Monarch-Rogita">
+        </section>
+        
+        <section class="product-info">
+            <h1>Monarch Rogita</h1>
+            <p class="price">$69.00</p>
+            <div class="product-description">
+                <p>IT'S BRIAN'S ROGITA, LIMITED ONLY ONE IS IN GAME RIGHT NOW!!!!!!!!</p>
+                <ul>
+                    <li>The Vanguard rarity unit currently in the Winter Banner that's been here since November.</li>
+                </ul>
+            </div>
+
+            <div class="product-actions">
+                <div class="quantity-selector">
+                    <label for="quantity">Quantity:</label>
+                    <select id="quantity" name="quantity">
+                        <option value="1">1</option>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <button class="add-to-cart">Add to Cart</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <nav>
+            <ul>
+                <li><a href="/html/about.html">About Us</a></li>
+                <li><a href="/html/faq.html">FAQ</a></li>
+            </ul>
+        </nav>
+        <p>&copy; 2025 Vanguard Market. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const button = document.querySelector('.add-to-cart');
+            const body = document.body;
+            const productId = body.dataset.productId;
+            const isOneTimePurchase = body.dataset.oneTimePurchase === 'true';
+        
+            let state = 'available'; 
+        
+            button.addEventListener('click', () => {
+                if (state !== 'available') return; 
+        
+                const name = document.querySelector('h1').innerText.trim();
+                const price = parseFloat(document.querySelector('.price').innerText.replace('$', ''));
+                const image = document.querySelector('.product-images img').getAttribute('src');
+                const quantity = parseInt(document.getElementById('quantity').value);
+        
+                const product = { id: productId, name, price, quantity, image, oneTimePurchase: isOneTimePurchase };
+        
+                fetch('/cart/add', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(product)
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(err => { throw new Error(err.error); });
+                    }
+                    return response.json();
+                })
+                .then(() => {
+                    alert(`${name} added to cart!`);
+                    state = 'in-cart';
+                    button.disabled = true;
+                    button.textContent = "Already in Cart";
+                })
+                .catch(error => {
+                    alert(error.message);
+                });
+            });
+        
+            Promise.all([
+                fetch('/cart').then(res => res.ok ? res.json() : []),
+                fetch('/purchase-history').then(res => res.ok ? res.json() : [])
+            ])
+            .then(([cart, history]) => {
+                if (!Array.isArray(cart)) cart = [];
+                if (!Array.isArray(history)) history = [];
+        
+                const inCart = cart.find(item => item.id === productId);
+                const inHistory = history.find(item => item.id === productId);
+        
+                if (isOneTimePurchase && inHistory) {
+                    state = 'purchased';
+                    button.disabled = true;
+                    button.textContent = "Already Purchased";
+                } else if (isOneTimePurchase && inCart) {
+                    state = 'in-cart';
+                    button.disabled = true;
+                    button.textContent = "Already in Cart";
+                } else {
+                    state = 'available';
+                    button.disabled = false;
+                    button.textContent = "Add to Cart";
+                }
+            })
+            .catch(err => {
+                console.error('Error loading cart or history:', err);
+                state = 'available';
+                button.disabled = false;
+                button.textContent = "Add to Cart";
+            });
+        });
+    </script>         
+</body>
+</html>
